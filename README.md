@@ -7,5 +7,5 @@ Ubuntu with **my** stuff
 To setup the OS with everything run the following command:
 
 ```
-git clone git@github.com:metalcycling/mubuntu.git .mubuntu && cd .mubuntu && bash install.sh
+git clone https://github.com/metalcycling/mubuntu.git .mubuntu && cd .mubuntu && bash install.sh
 ```

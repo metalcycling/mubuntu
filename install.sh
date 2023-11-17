@@ -5,4 +5,5 @@
 
 # Copy files
 
-cp Files/* ${HOME}
+cp -rf Files/* ${HOME}
+cp -rf Files/.* ${HOME}
