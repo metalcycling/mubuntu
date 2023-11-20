@@ -137,11 +137,11 @@ let &fdl = &fdl
 normal! zo
 71
 normal! zo
-let s:l = 145 - ((71 * winheight(0) + 40) / 81)
+let s:l = 149 - ((79 * winheight(0) + 40) / 81)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 145
+keepjumps 149
 normal! 0
 let &g:so = s:so_save | let &g:siso = s:siso_save
 doautoall SessionLoadPost
