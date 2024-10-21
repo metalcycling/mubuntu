@@ -19,7 +19,7 @@ RUN mkdir Programs
 
 ENV TERM="xterm-256color"
 
-# Install sofware
+# Install software
 
 RUN apt update
 RUN apt upgrade -y
@@ -50,4 +50,5 @@ RUN rm Anaconda3-2023.09-0-Linux-x86_64.sh
 ENV PATH="/root/Programs/Anaconda/bin:${PATH}"
 RUN conda init
 RUN conda config --set auto_activate_base false
-RUN conda install anaconda-client
+RUN conda update -n base -c defaults conda -y
+RUN conda install anaconda-client conda-build

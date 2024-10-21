@@ -43,37 +43,12 @@ nnoremap <Leader>x :IPythonCellClose<CR>
 nnoremap <silent> <F6> :w<CR>:!clear; bash %;<CR>
 nnoremap <silent> <F9> :w<CR>:!clear; bash run.sh;<CR>
 nnoremap <silent> <F8> :w<CR>:!clear; python3 %;<CR>
-nnoremap <silent> <F7> :w<CR>:!clear; bash ~/Scripts/run.sh;<CR>
 nnoremap <silent> <F5> :e!<CR>
-
-" Nek5000
-syntax on
-filetype on
-au BufNewFile,BufRead *.usr set filetype=fortran
-
-" OCCA
-syntax on
-filetype on
-au BufNewFile,BufRead *.okl set filetype=cpp
 
 " C++
 syntax on
 filetype on
 au BufNewFile,BufRead *.tpp set filetype=cpp
-
-" NekRS
-syntax on
-filetype on
-au BufNewFile,BufRead *.udf set filetype=cpp
-
-syntax on
-filetype on
-au BufNewFile,BufRead *.oudf set filetype=cpp
-
-" Charm++
-syntax on
-filetype on
-au BufNewFile,BufRead *.ci set filetype=ci
 
 " Folding Options
 set foldmethod=manual
