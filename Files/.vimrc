@@ -43,7 +43,7 @@ nnoremap <Leader>x :IPythonCellClose<CR>
 nnoremap <silent> <F6> :w<CR>:!clear; bash %;<CR>
 nnoremap <silent> <F9> :w<CR>:!clear; bash run.sh;<CR>
 nnoremap <silent> <F8> :w<CR>:!clear; python3 %;<CR>
-nnoremap <silent> <F7> :w<CR>:!clear; bash ~/Scripts/run.sh;<CR>
+nnoremap <silent> <F7> :w<CR>:!clear; bash ~/run.sh;<CR>
 nnoremap <silent> <F5> :e!<CR>
 
 " Nek5000
