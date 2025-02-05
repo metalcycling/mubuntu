@@ -127,3 +127,13 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 export VISUAL=vim
 export EDITOR=${VISUAL}
 
+# Kubecolor
+if [[ $(uname -m) == "x86_64" ]]; then
+    export PATH=${HOME}/.kube/kubecolor/x86_64:${PATH}
+else
+    export PATH=${HOME}/.kube/kubecolor/aarch64:${PATH}
+fi
+
+# Complete alias
+source ${HOME}/.kube/completion.bash.inc
+. ${HOME}/.kube/complete_alias/complete_alias

@@ -12,6 +12,7 @@ alias drm='docker rm'
 alias drmi='docker rmi'
 alias dstop='docker stop'
 alias dpr='docker system prune --all'
+alias kubectl='kubecolor'
 alias kc='kubecolor'
 alias kcn='kubecolor config set-context --current --namespace='
 
