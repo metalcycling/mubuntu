@@ -136,4 +136,4 @@ fi
 
 # Complete alias
 source ${HOME}/.kube/completion.bash.inc
-. ${HOME}/.kube/complete_alias/complete_alias
+source ${HOME}/.kube/complete_alias/complete_alias

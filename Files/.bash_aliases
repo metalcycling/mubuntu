@@ -14,7 +14,11 @@ alias dstop='docker stop'
 alias dpr='docker system prune --all'
 alias kubectl='kubecolor'
 alias kc='kubecolor'
-alias kcn='kubecolor config set-context --current --namespace='
+alias kcn='kubecolor config set-context --current --namespace'
+alias kcga='kubecolor get all'
+alias kcgp='kubecolor get pod -o yaml'
+alias kcdp='kubecolor describe pod'
+alias kclp='kubecolor logs'
 
 ignore()
 {
