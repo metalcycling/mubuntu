@@ -134,6 +134,6 @@ else
     export PATH=${HOME}/.kube/kubecolor/aarch64:${PATH}
 fi
 
-# Complete alias
+# Autocompletion tools
+source ${HOME}/.complete_alias
 source ${HOME}/.kube/completion.bash.inc
-source ${HOME}/.kube/complete_alias/complete_alias
