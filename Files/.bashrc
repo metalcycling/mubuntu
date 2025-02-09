@@ -136,4 +136,5 @@ fi
 
 # Autocompletion tools
 source ${HOME}/.complete_alias
-source ${HOME}/.kube/completion.bash.inc
+source ${HOME}/.kube/kubectl
+source ${HOME}/.kube/helm
