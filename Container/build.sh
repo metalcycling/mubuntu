@@ -11,9 +11,11 @@ if [[ -z ${REPLACE_FILES} ]]; then
 fi
 
 if [[ ${REPLACE_FILES} == "yes" ]]; then
-    rm -rf .*
-    cp -rf ../Files/.* .
+    find . ! -name '.gitignore' ! -name 'Dockerfile' ! -name 'build.sh' ! -name '.' -exec rm -rf {} +
+    cp -rf ../Files/. .
 fi
+
+exit
 
 # Build image
 
