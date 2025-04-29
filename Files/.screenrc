@@ -1,3 +1,9 @@
+# Set bash as default shell
+defshell -bash
+
+# Set 256 color scheme
+term "xterm-256color"
+
 # Turn off message
 startup_message off
 

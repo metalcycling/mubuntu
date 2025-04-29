@@ -19,6 +19,9 @@ alias kubectl='kubecolor'
 alias kc='kubecolor'
 alias kcn='kubecolor config set-context --current --namespace'
 alias kcw='watch -n 0.2 unbuffer kubecolor get all -o wide'
+alias kcg='kubecolor get -o yaml'
+alias kcd='kubecolor describe'
+alias kcl='kubecolor logs'
 alias kcga='kubecolor get all'
 alias kcgp='kubecolor get pod -o yaml'
 alias kcdp='kubecolor describe pod'
@@ -35,5 +38,14 @@ psa()
         ps aux | grep -- ${1}
     else
         ps aux
+    fi
+}
+
+psk()
+{
+    pid=$(ps aux | grep -- ${1} | grep -v grep | awk '{ print $2 }')
+
+    if [[ -n ${pid} ]]; then
+        kill -9 ${pid}
     fi
 }

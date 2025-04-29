@@ -1061,6 +1061,9 @@ complete -F _complete_alias sctls
 complete -F _complete_alias sctlr
 complete -F _complete_alias kc
 complete -F _complete_alias kcn
+complete -F _complete_alias kcg
+complete -F _complete_alias kcd
+complete -F _complete_alias kcl
 complete -F _complete_alias kcga
 complete -F _complete_alias kcgp
 complete -F _complete_alias kcdp
