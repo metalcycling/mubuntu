@@ -15,8 +15,6 @@ if [[ ${REPLACE_FILES} == "yes" ]]; then
     cp -rf ../Files/. .
 fi
 
-exit
-
 # Build image
 
 if [[ $(uname -s) == "Darwin" ]]; then
