@@ -20,10 +20,11 @@ RUN apt update && apt upgrade -y
 
 # Update timezone
 
-RUN apt-get install -y tzdata && \
+RUN DEBIAN_FRONTEND=noninteractive TZ=America/New_York \
+    apt install -y tzdata && \
     ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
     echo "America/New_York" > /etc/timezone && \
-    dpkg-reconfigure -f noninteractive tzdata
+    dpkg-reconfigure --frontend noninteractive tzdata
 
 # Install software
 
@@ -35,8 +36,11 @@ RUN apt install -y \
     screen \
     curl \
     wget \
+    iputils-ping \
+    tree \
     git \
     gpg \
+    expect \
     lsb-release
 
 # Install Python
