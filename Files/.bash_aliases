@@ -1,4 +1,5 @@
 # Aliases
+alias mscreen='screen -S metalcycling'
 alias lls='ls -alF -h -tr'
 alias finds='grep -rni . -e $@'
 alias findf='find . -name $@'
@@ -6,7 +7,7 @@ alias jqp='jq --color-output .'
 alias watch='watch -c'
 alias dps='docker ps -a'
 alias dim='docker images -a'
-alias drun='docker run'
+alias drun='docker run --interactive --tty --rm'
 alias dexec='docker exec'
 alias drm='docker rm'
 alias drmi='docker rmi'
@@ -22,6 +23,7 @@ alias kcw='watch -n 0.2 unbuffer kubecolor get all -o wide'
 alias kcg='kubecolor get -o yaml'
 alias kcd='kubecolor describe'
 alias kcl='kubecolor logs'
+alias kclf='kubecolor logs --follow=true'
 alias kcga='kubecolor get all'
 alias kcgp='kubecolor get pod -o yaml'
 alias kcdp='kubecolor describe pod'
@@ -43,6 +45,7 @@ alias gcob='git checkout -b'
 alias gcot='git checkout -t'
 alias gcotb='git checkout --track -b'
 alias glog='git log'
+alias glogo='git log --oneline'
 alias glogp='git log --pretty=format:"%h %s" --graph'
 
 ignore()
@@ -66,4 +69,9 @@ psk()
     if [[ -n ${pid} ]]; then
         kill -9 ${pid}
     fi
+}
+
+kce()
+{
+    kubecolor exec -it ${1} -- /bin/bash -c "TERM=xterm-256color /bin/bash"
 }

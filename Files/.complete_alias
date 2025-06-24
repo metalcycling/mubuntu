@@ -1068,6 +1068,10 @@ complete -F _complete_alias kcga
 complete -F _complete_alias kcgp
 complete -F _complete_alias kcdp
 complete -F _complete_alias kclp
+complete -F _complete_alias gdf
+complete -F _complete_alias gco
+complete -F _complete_alias gcob
+complete -F _complete_alias drun
 
 ##  to complete all aliases, run this line after all aliases have been defined;
 #complete -F _complete_alias "${!BASH_ALIASES[@]}"
