@@ -1064,10 +1064,13 @@ complete -F _complete_alias kcn
 complete -F _complete_alias kcg
 complete -F _complete_alias kcd
 complete -F _complete_alias kcl
+complete -F _complete_alias kclf
 complete -F _complete_alias kcga
 complete -F _complete_alias kcgp
 complete -F _complete_alias kcdp
 complete -F _complete_alias kclp
+complete -F _complete_alias gr
+complete -F _complete_alias grs
 complete -F _complete_alias gdf
 complete -F _complete_alias gco
 complete -F _complete_alias gcob

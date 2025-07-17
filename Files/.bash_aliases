@@ -5,6 +5,10 @@ alias finds='grep -rni . -e $@'
 alias findf='find . -name $@'
 alias jqp='jq --color-output .'
 alias watch='watch -c'
+alias sls='screen -ls'
+alias scr='screen -r $(screen -ls | grep Detached | head -n 1 | awk "{ print $1 }")'
+alias scd='screen -d $(screen -ls | grep Detached | head -n 1 | awk "{ print $1 }")'
+alias scw='screen -wipe $(screen -ls | grep "Remote or dead" | head -n 1 | awk "{ print $1 }")'
 alias dps='docker ps -a'
 alias dim='docker images -a'
 alias drun='docker run --interactive --tty --rm'
@@ -27,12 +31,13 @@ alias kclf='kubecolor logs --follow=true'
 alias kcga='kubecolor get all'
 alias kcgp='kubecolor get pod -o yaml'
 alias kcdp='kubecolor describe pod'
-alias kclp='kubecolor logs'
 alias gst='git status'
 alias gl='git pull'
 alias gp='git push'
 alias gd='git diff'
 alias ga='git add'
+alias gr='git restore'
+alias grs='git restore --staged'
 alias gdf='git diff --'
 alias gdv='git difftool'
 alias gau='git add --update'
@@ -75,3 +80,22 @@ kce()
 {
     kubecolor exec -it ${1} -- /bin/bash -c "TERM=xterm-256color /bin/bash"
 }
+
+cdf()
+{
+    cd $(dirname ${1})
+}
+
+cdw()
+{
+    cd $(dirname $(command -v ${1}))
+}
+
+complete -A command cdw
+
+vimw()
+{
+    vim $(which ${1})
+}
+
+complete -A command vimw
