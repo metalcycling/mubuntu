@@ -31,7 +31,7 @@ alias kclf='kubecolor logs --follow=true'
 alias kcga='kubecolor get all'
 alias kcgp='kubecolor get pod -o yaml'
 alias kcdp='kubecolor describe pod'
-alias gst='git status'
+alias gs='git status'
 alias gl='git pull'
 alias gp='git push'
 alias gd='git diff'
@@ -41,8 +41,8 @@ alias grs='git restore --staged'
 alias gdf='git diff --'
 alias gdv='git difftool'
 alias gau='git add --update'
-alias gc='git commit -v'
-alias gca='git commit -v -a'
+alias gc='git commit -v -m'
+alias gca='git commit -v -a -m'
 alias gb='git branch'
 alias gba='git branch -a'
 alias gco='git checkout'
@@ -52,6 +52,10 @@ alias gcotb='git checkout --track -b'
 alias glog='git log'
 alias glogo='git log --oneline'
 alias glogp='git log --pretty=format:"%h %s" --graph'
+alias gst='git stash'
+alias gstl='git stash list'
+alias gstp='git stash pop'
+alias gstd='git stash drop'
 
 ignore()
 {
@@ -78,7 +82,11 @@ psk()
 
 kce()
 {
-    kubecolor exec -it ${1} -- /bin/bash -c "TERM=xterm-256color /bin/bash"
+    if [[ -z ${2} ]]; then
+        kubecolor exec --stdin --tty ${1} -- /bin/bash -c "TERM=xterm-256color /bin/bash"
+    else
+        kubecolor exec --stdin --tty --namespace ${1} ${2} -- /bin/bash -c "TERM=xterm-256color /bin/bash"
+    fi
 }
 
 cdf()

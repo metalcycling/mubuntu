@@ -46,11 +46,6 @@ nnoremap <silent> <F8> :w<CR>:!clear; python3 %;<CR>
 nnoremap <silent> <F7> :w<CR>:!clear; bash ~/run.sh;<CR>
 nnoremap <silent> <F5> :e!<CR>
 
-" Charm++
-syntax on
-filetype on
-au BufNewFile,BufRead *.ci set filetype=ci
-
 " Folding Options
 set foldmethod=manual
 set foldnestmax=1
