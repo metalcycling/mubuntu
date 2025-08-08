@@ -89,6 +89,26 @@ kce()
     fi
 }
 
+_kce() {
+    local current namespace
+
+    COMPREPLY=()
+    current="${COMP_WORDS[COMP_CWORD]}"
+
+    if (( COMP_CWORD == 1 )); then
+        COMPREPLY=($(compgen -W "$(kubectl get pods -o custom-columns=:metadata.name --no-headers 2>/dev/null)" -- ${current}))
+        return 0
+    fi
+
+    if (( COMP_CWORD == 2 )); then
+        namespace=${COMP_WORDS[1]}
+        COMPREPLY=($(compgen -W "$(kubectl get pods -n ${namespace} -o custom-columns=:metadata.name --no-headers 2>/dev/null)" -- ${current}))
+        return 0
+    fi
+}
+
+complete -F _kce -o default -o bashdefault kce
+
 cdf()
 {
     cd $(dirname ${1})
