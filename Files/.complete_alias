@@ -1062,19 +1062,21 @@ complete -F _complete_alias sctlr
 complete -F _complete_alias kc
 complete -F _complete_alias kcn
 complete -F _complete_alias kcg
+complete -F _complete_alias kcy
 complete -F _complete_alias kcd
 complete -F _complete_alias kcl
 complete -F _complete_alias kclf
 complete -F _complete_alias kcga
 complete -F _complete_alias kcgp
 complete -F _complete_alias kcdp
-complete -F _complete_alias kclp
+complete -F _complete_alias kcdl
 complete -F _complete_alias gr
 complete -F _complete_alias grs
 complete -F _complete_alias gdf
 complete -F _complete_alias gco
 complete -F _complete_alias gcob
 complete -F _complete_alias drun
+complete -F _complete_alias dexec
 
 ##  to complete all aliases, run this line after all aliases have been defined;
 #complete -F _complete_alias "${!BASH_ALIASES[@]}"
