@@ -16,7 +16,7 @@ ENV TERM="xterm-256color"
 
 # Update package registry
 
-RUN apt update && apt upgrade -y
+RUN apt update && apt upgrade --yes
 
 # Update timezone
 
@@ -28,7 +28,7 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=America/New_York \
 
 # Install software
 
-RUN apt install -y \
+RUN apt install --yes \
     sudo \
     software-properties-common \
     build-essential \
@@ -45,9 +45,9 @@ RUN apt install -y \
 
 # Install Python
 
-RUN add-apt-repository ppa:deadsnakes/ppa -y \
-    && apt-get update \
-    && apt-get install -y python3.11 python3.11-venv python3.11-dev \
+RUN add-apt-repository ppa:deadsnakes/ppa -yes \
+    && apt update \
+    && apt install --yes python3.11 python3.11-venv python3.11-dev \
     && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 \
     && ln -s /usr/bin/python3.11 /usr/local/bin/python \
     && ln -s /usr/bin/python3.11 /usr/local/bin/python3
@@ -59,7 +59,7 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 # Install LaTeX
 
-RUN apt install -y \
+RUN apt install --yes \
     texlive-full
 
 # Install AWS CLI
@@ -90,6 +90,11 @@ WORKDIR /root/.vim
 
 RUN tar -xvf pack.tar
 RUN rm pack.tar
+
+# Clean registry
+
+RUN apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Command to run
 
