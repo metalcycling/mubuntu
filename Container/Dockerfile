@@ -45,7 +45,7 @@ RUN apt install --yes \
 
 # Install Python
 
-RUN add-apt-repository ppa:deadsnakes/ppa -yes \
+RUN add-apt-repository ppa:deadsnakes/ppa --yes \
     && apt update \
     && apt install --yes python3.11 python3.11-venv python3.11-dev \
     && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 \
