@@ -1075,6 +1075,7 @@ complete -F _complete_alias kcgw
 complete -F _complete_alias kcaf
 complete -F _complete_alias kcdf
 complete -F _complete_alias kcgpw
+complete -F _complete_alias kcdlp
 complete -F _complete_alias gr
 complete -F _complete_alias grs
 complete -F _complete_alias gdf
