@@ -71,9 +71,11 @@ RUN rm -rf aws awscliv2.zip
 
 # Install Kubectl
 
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-RUN rm kubectl
+ARG TARGETOS
+ARG TARGETARCH
+
+RUN curl -fL -o /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/${TARGETOS}/${TARGETARCH}/kubectl"
+RUN chmod 0755 /usr/local/bin/kubectl
 
 # Copy environment files
 
