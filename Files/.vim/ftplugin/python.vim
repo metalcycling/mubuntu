@@ -1,4 +1,6 @@
 let @o='oquit()'
 let @p='oprint()i'
 let @r='mm/# %%kVNj''m'
+let @e='mm/# kVNj''m'
 let @f='mm/# %%kVNj''p/# %%kVNj''mzz'
+let @c='mm''m'

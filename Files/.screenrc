@@ -1,5 +1,8 @@
+# Set directory
+defcwd
+
 # Set bash as default shell
-defshell -bash
+defshell bash
 
 # Set 256 color scheme
 term "xterm-256color"

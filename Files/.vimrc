@@ -26,7 +26,8 @@ nnoremap ' `
 let g:slime_target = 'screen'
 let g:slime_python_ipython = 1
 let g:slime_dont_ask_default = 1
-let b:slime_config = { 'sessionname': $STY, 'windowname': 0 }
+let g:slime_default_config = { 'sessionname': $STY, 'windowname': 0 }
+autocmd BufNewFile,BufRead,BufNew * let b:slime_config = copy(g:slime_default_config)
 
 " IPython-cell configuration
 nnoremap <Leader>s :SlimeSend1 ipython<CR>

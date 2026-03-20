@@ -1068,7 +1068,9 @@ complete -F _complete_alias kcl
 complete -F _complete_alias kclf
 complete -F _complete_alias kcga
 complete -F _complete_alias kcgp
+complete -F _complete_alias kcgn
 complete -F _complete_alias kcdp
+complete -F _complete_alias kcdn
 complete -F _complete_alias kcyp
 complete -F _complete_alias kcdl
 complete -F _complete_alias kcgw

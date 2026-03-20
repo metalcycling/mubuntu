@@ -138,3 +138,4 @@ fi
 source ${HOME}/.complete_alias
 source ${HOME}/.kube/kubectl
 source ${HOME}/.kube/helm
+complete -C "/usr/local/bin/aws_completer" aws
