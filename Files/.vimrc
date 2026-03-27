@@ -22,17 +22,33 @@ set expandtab
 " Remap 'jump to line' to 'jump to marker' 
 nnoremap ' `
 
+" Leader
+let mapleader=" "
+
+set timeout
+set timeoutlen=250
+set ttimeout
+set ttimeoutlen=10
+
+" File management
+nnoremap <silent> <Leader>q :q<CR>
+nnoremap <silent> <Leader>qa :qa<CR>
+nnoremap <silent> <Leader>w :w<CR>
+nnoremap <silent> <Leader>wa :wa<CR>
+nnoremap <silent> <Leader>wq :wq<CR>
+nnoremap <silent> <Leader>wqa :wqa<CR>
+nnoremap <silent> <Leader>qa :qa<CR>
+
 " Slime configuration 
-let g:slime_target = 'screen'
-let g:slime_python_ipython = 1
-let g:slime_dont_ask_default = 1
-let g:slime_default_config = { 'sessionname': $STY, 'windowname': 0 }
-autocmd BufNewFile,BufRead,BufNew * let b:slime_config = copy(g:slime_default_config)
+let g:slime_target='screen'
+let g:slime_python_ipython=1
+let g:slime_dont_ask_default=1
+let g:slime_default_config={ 'sessionname': $STY, 'windowname': 0 }
+autocmd BufNewFile,BufRead,BufNew * let b:slime_config=copy(g:slime_default_config)
 
 " IPython-cell configuration
 nnoremap <Leader>s :SlimeSend1 ipython<CR>
 nnoremap <Leader>d :SlimeSend1 %debug<CR>
-nnoremap <Leader>q :SlimeSend1 exit<CR>
 nnoremap <Leader>r :IPythonCellRun<CR>
 nnoremap <Leader>R :IPythonCellRunTime<CR>
 nnoremap <Leader>c :IPythonCellExecuteCell<CR>
@@ -59,6 +75,19 @@ augroup AutoSaveFolds
     autocmd BufWinEnter * silent loadview
 augroup END
 
+" D2
+augroup d2
+  autocmd!
+  autocmd BufRead,BufNewFile *.d2 set filetype=d2
+  autocmd BufWritePre *.d2 !d2 fmt %
+augroup END
+
 " Undo persistence
 set undofile
 set undodir=~/.vim/undodir
+
+" Dockerfile
+augroup dockerfile
+  autocmd!
+  autocmd BufRead,BufNewFile,BufWritePost Dockerfile* setfiletype dockerfile
+augroup END
