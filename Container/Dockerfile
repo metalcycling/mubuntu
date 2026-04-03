@@ -1,0 +1,105 @@
+#
+#  Ubuntu OS
+#
+
+# Base image
+
+FROM ubuntu:22.04
+
+# Make home default directory
+
+WORKDIR /root
+
+# Environment variables
+
+ENV TERM="xterm-256color"
+
+# Update package registry
+
+RUN apt update && apt upgrade --yes
+
+# Update timezone
+
+RUN DEBIAN_FRONTEND=noninteractive TZ=America/New_York \
+    apt install -y tzdata && \
+    ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
+    echo "America/New_York" > /etc/timezone && \
+    dpkg-reconfigure --frontend noninteractive tzdata
+
+# Install software
+
+RUN apt install --yes \
+    sudo \
+    software-properties-common \
+    build-essential \
+    vim \
+    screen \
+    curl \
+    wget \
+    iputils-ping \
+    tree \
+    git \
+    gpg \
+    expect \
+    lsb-release
+
+# Install Python
+
+RUN add-apt-repository ppa:deadsnakes/ppa --yes \
+    && apt update \
+    && apt install --yes python3.11 python3.11-venv python3.11-dev \
+    && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 \
+    && ln -s /usr/bin/python3.11 /usr/local/bin/python \
+    && ln -s /usr/bin/python3.11 /usr/local/bin/python3
+
+# Install uv
+
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Install LaTeX
+
+RUN apt install --yes \
+    texlive-full
+
+# Install AWS CLI
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+RUN rm -rf aws awscliv2.zip
+
+# Install Kubectl
+
+ARG TARGETOS
+ARG TARGETARCH
+
+RUN curl -fL -o /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/${TARGETOS}/${TARGETARCH}/kubectl"
+RUN chmod 0755 /usr/local/bin/kubectl
+
+# Copy environment files
+
+COPY .bash_aliases /root/
+COPY .complete_alias /root
+COPY .bashrc /root
+COPY .inputrc /root
+COPY .screenrc /root
+COPY .vimrc /root
+COPY .vim /root/.vim
+COPY .kube /root/.kube
+
+WORKDIR /root/.vim
+
+RUN tar -xvf pack.tar
+RUN rm pack.tar
+
+# Clean registry
+
+RUN apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Command to run
+
+WORKDIR /root
+
+CMD ["bash"]
