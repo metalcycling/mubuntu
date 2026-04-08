@@ -29,28 +29,28 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=America/New_York \
 # Install software
 
 RUN apt install --yes \
-    sudo \
-    software-properties-common \
     build-essential \
-    vim \
-    screen \
     curl \
-    wget \
-    iputils-ping \
-    tree \
+    expect \
     git \
     gpg \
-    expect \
-    lsb-release
+    iputils-ping \
+    lsb-release \
+    screen \
+    software-properties-common \
+    sudo \
+    tree \
+    vim \
+    wget
 
 # Install Python
 
 RUN add-apt-repository ppa:deadsnakes/ppa --yes \
     && apt update \
-    && apt install --yes python3.11 python3.11-venv python3.11-dev \
-    && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 \
-    && ln -s /usr/bin/python3.11 /usr/local/bin/python \
-    && ln -s /usr/bin/python3.11 /usr/local/bin/python3
+    && apt install --yes python3.12 python3.12-venv python3.12-dev \
+    && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 \
+    && ln -s /usr/bin/python3.12 /usr/local/bin/python \
+    && ln -s /usr/bin/python3.12 /usr/local/bin/python3
 
 # Install uv
 
@@ -77,21 +77,17 @@ ARG TARGETARCH
 RUN curl -fL -o /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/${TARGETOS}/${TARGETARCH}/kubectl"
 RUN chmod 0755 /usr/local/bin/kubectl
 
+# Install Claude Code
+
+RUN curl -fsSL https://claude.ai/install.sh | bash
+
 # Copy environment files
 
-COPY .bash_aliases /root/
-COPY .complete_alias /root
-COPY .bashrc /root
-COPY .inputrc /root
-COPY .screenrc /root
-COPY .vimrc /root
-COPY .vim /root/.vim
-COPY .kube /root/.kube
-
-WORKDIR /root/.vim
-
-RUN tar -xvf pack.tar
-RUN rm pack.tar
+RUN git clone https://github.com/metalcycling/mubuntu.git /opt/mubuntu
+RUN cp -rT /opt/mubuntu/Files /root
+RUN rm -rf /opt/mubuntu
+RUN tar -xvf ~/.vim/pack.tar -C ~/.vim
+RUN rm ~/.vim/pack.tar
 
 # Clean registry
 
@@ -100,6 +96,4 @@ RUN apt clean && \
 
 # Command to run
 
-WORKDIR /root
-
-CMD ["bash"]
+CMD ["/bin/bash"]
