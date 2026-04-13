@@ -40,17 +40,18 @@ RUN apt install --yes \
     software-properties-common \
     sudo \
     tree \
+    unzip \
     vim \
     wget
 
 # Install Python
 
-RUN add-apt-repository ppa:deadsnakes/ppa --yes \
-    && apt update \
-    && apt install --yes python3.12 python3.12-venv python3.12-dev \
-    && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 \
-    && ln -s /usr/bin/python3.12 /usr/local/bin/python \
-    && ln -s /usr/bin/python3.12 /usr/local/bin/python3
+RUN add-apt-repository ppa:deadsnakes/ppa --yes && \
+    apt update && \
+    apt install --yes python3.12 python3.12-venv python3.12-dev && \
+    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 && \
+    ln -s /usr/bin/python3.12 /usr/local/bin/python && \
+    ln -s /usr/bin/python3.12 /usr/local/bin/python3
 
 # Install uv
 
@@ -64,15 +65,16 @@ RUN apt install --yes \
 
 # Install AWS CLI
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN unzip awscliv2.zip
-RUN ./aws/install
-RUN rm -rf aws awscliv2.zip
-
-# Install Kubectl
-
 ARG TARGETOS
 ARG TARGETARCH
+
+RUN if [ "$TARGETARCH" = "arm64" ]; then AWS_ARCH="aarch64"; else AWS_ARCH="x86_64"; fi && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_ARCH}.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install && \
+    rm -rf aws awscliv2.zip
+
+# Install Kubectl
 
 RUN curl -fL -o /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/${TARGETOS}/${TARGETARCH}/kubectl"
 RUN chmod 0755 /usr/local/bin/kubectl
