@@ -29,6 +29,7 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=America/New_York \
 # Install software
 
 RUN apt install --yes \
+    bash-completion \
     build-essential \
     curl \
     expect \
