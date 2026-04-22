@@ -14,6 +14,9 @@ WORKDIR /root
 
 ENV TERM="xterm-256color"
 
+ARG TARGETOS
+ARG TARGETARCH
+
 # Update package registry
 
 RUN apt update && apt upgrade --yes
@@ -38,6 +41,8 @@ RUN apt install --yes \
     gnupg \
     iputils-ping \
     lsb-release \
+    openssh-client \
+    openssh-server \
     screen \
     software-properties-common \
     sudo \
@@ -47,6 +52,9 @@ RUN apt install --yes \
     wget
 
 # Install Python
+
+ARG TARGETOS
+ARG TARGETARCH
 
 RUN add-apt-repository ppa:deadsnakes/ppa --yes && \
     apt update && \
@@ -63,14 +71,20 @@ ENV PATH="/root/.local/bin:${PATH}"
 # Install LaTeX
 
 RUN apt install --yes \
-    texlive-full
+    texlive-latex-recommended \
+    texlive-latex-extra \
+    texlive-fonts-recommended \
+    texlive-science \
+    texlive-pictures \
+    texlive-bibtex-extra \
+    texlive-publishers \
+    texlive-xetex \
+    texlive-luatex \
+    latexmk
 
 # Install AWS CLI
 
-ARG TARGETOS
-ARG TARGETARCH
-
-RUN if [ "$TARGETARCH" = "arm64" ]; then AWS_ARCH="aarch64"; else AWS_ARCH="x86_64"; fi && \
+RUN if [ "${TARGETARCH}" = "arm64" ]; then AWS_ARCH="aarch64"; else AWS_ARCH="x86_64"; fi && \
     curl "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_ARCH}.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     ./aws/install && \
@@ -99,10 +113,23 @@ RUN curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gp
 
 # Install Docker CLI
 
-RUN mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+    echo "deb [arch=${TARGETARCH} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     apt update && apt install --yes docker-ce-cli
+
+# Install nerdctl
+
+RUN NERDCTL_VERSION=$(curl -s https://api.github.com/repos/containerd/nerdctl/releases/latest | grep tag_name | cut -d '"' -f 4 | sed 's/v//') && \
+    wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz && \
+    tar -xzvf nerdctl-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz -C /usr/local/bin && \
+    rm nerdctl-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz
+
+# Install buildkit
+
+RUN BUILDKIT_VERSION=$(curl -s https://api.github.com/repos/moby/buildkit/releases/latest | grep tag_name | cut -d '"' -f 4 | sed 's/v//') && \
+    wget https://github.com/moby/buildkit/releases/download/v${BUILDKIT_VERSION}/buildkit-v${BUILDKIT_VERSION}.linux-${TARGETARCH}.tar.gz && \
+    tar -xzvf buildkit-v${BUILDKIT_VERSION}.linux-${TARGETARCH}.tar.gz -C /usr/local && \
+    rm buildkit-v${BUILDKIT_VERSION}.linux-${TARGETARCH}.tar.gz
 
 # Copy environment files
 
