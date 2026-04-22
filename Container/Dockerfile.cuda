@@ -4,7 +4,7 @@
 
 # Base image
 
-FROM ubuntu:22.04
+FROM nvidia/cuda:12.9.1-cudnn-devel-ubuntu22.04 AS base
 
 # Make home default directory
 
@@ -20,6 +20,21 @@ ARG TARGETARCH
 # Update package registry
 
 RUN apt update && apt upgrade --yes
+
+# Remove old packages
+
+RUN apt remove --yes --allow-change-held-packages \
+    ibverbs-utils \
+    libibverbs-dev \
+    libibverbs1 \
+    libmlx5-1 \
+    libnccl2 \
+    libnccl-dev
+
+RUN rm -rf /opt/hpcx \
+    && rm -rf /usr/local/mpi \
+    && rm -f /etc/ld.so.conf.d/hpcx.conf \
+    && ldconfig
 
 # Update timezone
 
@@ -67,20 +82,6 @@ RUN add-apt-repository ppa:deadsnakes/ppa --yes && \
 
 RUN curl -LsSf https://astral.sh/uv/install.sh | \
     env UV_INSTALL_DIR=/usr/local/bin INSTALLER_NO_MODIFY_PATH=1 sh
-
-# Install LaTeX
-
-RUN apt install --yes \
-    texlive-latex-recommended \
-    texlive-latex-extra \
-    texlive-fonts-recommended \
-    texlive-science \
-    texlive-pictures \
-    texlive-bibtex-extra \
-    texlive-publishers \
-    texlive-xetex \
-    texlive-luatex \
-    latexmk
 
 # Install AWS CLI
 
