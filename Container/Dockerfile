@@ -131,6 +131,11 @@ RUN BUILDKIT_VERSION=$(curl -s https://api.github.com/repos/moby/buildkit/releas
     tar -xzvf buildkit-v${BUILDKIT_VERSION}.linux-${TARGETARCH}.tar.gz -C /usr/local && \
     rm buildkit-v${BUILDKIT_VERSION}.linux-${TARGETARCH}.tar.gz
 
+# Download GNU screen utilities
+
+RUN git clone https://github.com/metalcycling/screen-utils.git /opt/screen/utils
+ENV PATH="/opt/screen/utils:${PATH}"
+
 # Copy environment files
 
 RUN git clone https://github.com/metalcycling/mubuntu.git /opt/mubuntu
