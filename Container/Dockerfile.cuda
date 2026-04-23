@@ -68,9 +68,6 @@ RUN apt install --yes \
 
 # Install Python
 
-ARG TARGETOS
-ARG TARGETARCH
-
 RUN add-apt-repository ppa:deadsnakes/ppa --yes && \
     apt update && \
     apt install --yes python3.12 python3.12-venv python3.12-dev && \
@@ -93,12 +90,14 @@ RUN if [ "${TARGETARCH}" = "arm64" ]; then AWS_ARCH="aarch64"; else AWS_ARCH="x8
 
 # Install Kubectl
 
-RUN curl -fL -o /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/${TARGETOS}/${TARGETARCH}/kubectl"
-RUN chmod 0755 /usr/local/bin/kubectl
+RUN curl -fL -o /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -fsSL https://dl.k8s.io/release/stable.txt)/bin/${TARGETOS}/${TARGETARCH}/kubectl" && \
+    chmod 0755 /usr/local/bin/kubectl
 
 # Install Claude Code
 
-RUN curl -fsSL https://claude.ai/install.sh | bash
+RUN curl -fsSL https://claude.ai/install.sh | bash && \
+    cp -L /root/.local/bin/claude /usr/local/bin/claude && \
+    chmod 0755 /usr/local/bin/claude
 
 # Install Terraform
 
@@ -121,16 +120,13 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /
 # Install nerdctl
 
 RUN NERDCTL_VERSION=$(curl -s https://api.github.com/repos/containerd/nerdctl/releases/latest | grep tag_name | cut -d '"' -f 4 | sed 's/v//') && \
-    wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz && \
-    tar -xzvf nerdctl-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz -C /usr/local/bin && \
-    rm nerdctl-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz
+    wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-full-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz && \
+    tar -xzvf nerdctl-full-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz -C /usr/local && \
+    rm nerdctl-full-${NERDCTL_VERSION}-linux-${TARGETARCH}.tar.gz
 
-# Install buildkit
+# Install just
 
-RUN BUILDKIT_VERSION=$(curl -s https://api.github.com/repos/moby/buildkit/releases/latest | grep tag_name | cut -d '"' -f 4 | sed 's/v//') && \
-    wget https://github.com/moby/buildkit/releases/download/v${BUILDKIT_VERSION}/buildkit-v${BUILDKIT_VERSION}.linux-${TARGETARCH}.tar.gz && \
-    tar -xzvf buildkit-v${BUILDKIT_VERSION}.linux-${TARGETARCH}.tar.gz -C /usr/local && \
-    rm buildkit-v${BUILDKIT_VERSION}.linux-${TARGETARCH}.tar.gz
+RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
 
 # Download GNU screen utilities
 

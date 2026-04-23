@@ -11,7 +11,7 @@ if [[ -z ${REPLACE_FILES} ]]; then
 fi
 
 if [[ ${REPLACE_FILES} == "yes" ]]; then
-    find . ! -name '.gitignore' ! -name 'Dockerfile' ! -name 'build.sh' ! -name '.' -exec rm -rf {} +
+    find . ! -name '.gitignore' ! -name 'Dockerfile*' ! -name 'build.sh' ! -name '.' -exec rm -rf {} +
     cp -rf ../Files/. .
 fi
 
@@ -25,4 +25,4 @@ else
     platform="linux/amd64"
 fi
 
-docker build --platform ${platform} --tag ${image} --file Dockerfile .
+docker build --platform ${3:-${platform}} --tag ${2:-${image}} --file ${1:-Dockerfile} .
